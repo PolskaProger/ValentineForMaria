@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>С 14 февраля ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Cormorant+Garamond:wght@400;600;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background: linear-gradient(135deg, #fff5f7 0%, #ffe4ec 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Фоновые сердечки */
+        .background-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .floating-heart {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.15;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+
+        /* Секции */
+        section {
+            position: relative;
+            z-index: 2;
+            margin-bottom: 60px;
+            scroll-margin-top: 20px;
+        }
+
+        /* Заголовок */
+        .hero {
+            text-align: center;
+            padding: 40px 0;
+            margin-top: 20px;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #ff1744 0%, #ff6e7f 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 900;
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            color: #d81b60;
+            margin-bottom: 30px;
+            font-style: italic;
+            font-weight: 400;
+        }
+
+        /* Поиск сердечек */
+        .quest-info {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            border: 2px solid #ffb3d9;
+        }
+
+        .quest-counter {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #d81b60;
+        }
+
+        /* Галерея (4 валентинки) */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+            overflow: hidden;
+        }
+
+        .gallery-item {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(255, 23, 68, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            height: auto;
+            display: block;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 35px rgba(255, 23, 68, 0.25);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: auto; 
+            object-fit: contain; 
+            display: block;
+        }
+
+        /* Модальное окно */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90vh;
+            border-radius: 20px;
+            overflow: hidden;
+            animation: slideIn 0.4s ease;
+            position: relative;
+        }
+
+        .modal-content img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+            cursor: pointer;
+            color: white;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+            border: none;
+        }
+
+        .modal-close:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* Заглушка стихотворения */
+        .poem-placeholder {
+            background: white;
+            border-radius: 20px;
+            padding: 60px 40px;
+            box-shadow: 0 8px 25px rgba(255, 23, 68, 0.1);
+            text-align: center;
+            position: relative;
+        }
+
+        .poem-placeholder h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: #d81b60;
+            margin-bottom: 20px;
+        }
+
+        .poem-placeholder p {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            color: #999;
+            margin-bottom: 10px;
+        }
+
+                /* Контейнер для трёх колонок со стихами */
+        .poem-columns {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap; /* чтобы на узких экранах колонки вставали друг под друга */
+        }
+
+        /* Каждая колонка (строфа) */
+        .stanza {
+            flex: 1 1 200px; /* базовый размер 200px, могут растягиваться */
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(5px);
+            padding: 25px 20px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(255, 23, 68, 0.1);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #4a4a4a;
+            border: 2px solid #ffb3d9;
+            white-space: normal;
+            text-align: left;
+        }
+
+        /* Стихи внутри колонки (каждая строка) */
+        .stanza p {
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        /* Чтобы сохранить разбивку на строки, используем <br> */
+        /* Адаптация для мобильных */
+        @media (max-width: 768px) {
+            .poem-columns {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .stanza {
+                width: 100%;
+            }
+        }
+        /* Сердечки для поиска (разбросаны по странице) */
+        .hidden-heart-item {
+            position: absolute;
+            font-size: 3rem;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            opacity: 0.8;
+        }
+
+        .hidden-heart-item:hover {
+            transform: scale(1.2);
+            opacity: 1;
+        }
+
+        .hidden-heart-item.found {
+            opacity: 0.3;
+            cursor: default;
+        }
+
+        .hidden-heart-item.found:hover {
+            transform: scale(1);
+        }
+
+        /* Блок признания */
+        .confession-block {
+            background: white;
+            border-radius: 20px;
+            padding: 50px 40px;
+            box-shadow: 0 12px 40px rgba(255, 23, 68, 0.2);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+            transition: all 0.8s ease;
+        }
+
+        .confession-block.unlocked {
+            max-height: 1000px;
+            opacity: 1;
+        }
+
+        .confession-block::before {
+            content: '❤️';
+            position: absolute;
+            font-size: 8rem;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0.1;
+        }
+
+        .confession-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: #d81b60;
+            margin-bottom: 20px;
+            font-weight: 900;
+        }
+
+        .confession-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            line-height: 1.9;
+            color: #555;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        .confession-highlight {
+            color: #ff1744;
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+
+        .celebration {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            font-size: 2rem;
+            margin-top: 30px;
+            animation: celebrate 0.6s ease;
+        }
+
+        @keyframes celebrate {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        /* Прогресс-бар */
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #ffe4ec;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff1744 0%, #ff6e7f 100%);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        /* Финальный текст */
+        .final-message {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 23, 68, 0.05);
+            border-radius: 15px;
+            border-left: 4px solid #ff1744;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .final-message.show {
+            max-height: 300px;
+            opacity: 1;
+        }
+
+        .final-message p {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.1rem;
+            color: #d81b60;
+            font-weight: bold;
+        }
+
+        /* Позиционированные сердечки */
+        .hearts-around {
+            position: relative;
+        }
+
+        .heart-pos-1 {
+            position: absolute;
+            top: 30px;
+            left: 20px;
+        }
+
+        .heart-pos-2 {
+            position: absolute;
+            top: 50px;
+            right: 30px;
+        }
+
+        .heart-pos-3 {
+            position: absolute;
+            bottom: 40px;
+            left: 40px;
+        }
+
+        .heart-pos-4 {
+            position: absolute;
+            bottom: 60px;
+            right: 50px;
+        }
+
+        .heart-pos-5 {
+            position: absolute;
+            top: 100px;
+            right: 15%;
+        }
+
+        .heart-pos-6 {
+            position: absolute;
+            top: 60px;
+            left: 30%;
+        }
+
+        .heart-pos-7 {
+            position: absolute;
+            bottom: 100px;
+            left: 25%;
+        }
+
+        .heart-pos-8 {
+            position: absolute;
+            bottom: 80px;
+            right: 20%;
+        }
+
+        .heart-pos-9 {
+            position: absolute;
+            top: 150px;
+            left: 10%;
+        }
+
+        .heart-pos-10 {
+            position: absolute;
+            top: 120px;
+            right: 10%;
+        }
+
+        /* Адаптив */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .poem-placeholder {
+                padding: 30px 20px;
+            }
+
+            .confession-block {
+                padding: 30px 20px;
+            }
+
+            .hidden-heart-item {
+                font-size: 2rem;
+            }
+
+            .heart-pos-1, .heart-pos-2, .heart-pos-3, .heart-pos-4,
+            .heart-pos-5, .heart-pos-6, .heart-pos-7, .heart-pos-8,
+            .heart-pos-9, .heart-pos-10 {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+
+            .hidden-heart-item {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Фоновые сердечки -->
+    <div class="background-hearts" id="backgroundHearts"></div>
+
+    <div class="container">
+        <!-- Приветствие -->
+        <section class="hero">
+            <h1>С 14 февраля! 💖</h1>
+            <p>Спасибо, что ты появилась в моем жизни!</p>
+            <div class="quest-info">
+                <div class="quest-counter">Найди все сердечки ❤️ на странице!</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                </div>
+                <small id="heartsCount" style="font-family: 'Montserrat', sans-serif;">Найдено: 0 из 10</small>
+            </div>
+            <div class="hearts-around">
+                <div class="hidden-heart-item heart-pos-1" data-heart-id="hero-1">❤️</div>
+                <div class="hidden-heart-item heart-pos-2" data-heart-id="hero-2">❤️</div>
+            </div>
+        </section>
+
+        <!-- Галерея валентинок (4 штуки) -->
+        <section>
+            <h2 style="font-family: 'Playfair Display', serif; text-align: center; color: #d81b60; margin-bottom: 30px; font-size: 2.5rem;">Валентинки для тебя</h2>
+            <div class="gallery">
+                <!-- Первые два элемента – изображения из файлов -->
+                <div class="gallery-item" data-modal-id="1">
+                    <img src="images/1.png" alt="Валентинка 1">
+                </div>
+                <div class="gallery-item" data-modal-id="2">
+                    <img src="images/2.png" alt="Валентинка 2">
+                </div>
+            </div>
+            <div class="hearts-around">
+                <div class="hidden-heart-item heart-pos-3" data-heart-id="gallery-1">❤️</div>
+                <div class="hidden-heart-item heart-pos-4" data-heart-id="gallery-2">❤️</div>
+            </div>
+        </section>
+
+        <!-- Заглушка стихотворения -->
+        <section class="poem-placeholder hearts-around">
+            <h2 style="font-family: 'Playfair Display', serif; text-align: center; color: #d81b60; margin-bottom: 30px; font-size: 2.5rem;">Стихотворение для тебя</h2>
+            
+            <div class="poem-columns">
+                <!-- Столбик 1 -->
+                <div class="stanza">
+                    Улицы скользки.<br>
+                    Февраль разродился вьюгой.<br>
+                    Но мне<br>
+                    не нужны<br>
+                    ни витрины, ни эти бесконечные циклы.<br>
+                    Здесь,<br>
+                    в грохоте дня,<br>
+                    за твоею дверью —<br>
+                    простая,<br>
+                    как выдох,<br>
+                    тишина.
+                </div>
+                
+                <!-- Столбик 2 -->
+                <div class="stanza">
+                    Мария!<br>
+                    Вас<br>
+                    и любить-то,<br>
+                    наверное,<br>
+                    стыдно<br>
+                    такой<br>
+                    неуклюжей<br>
+                    душе.<br>
+                    Но сердце не камень.<br>
+                    Ему<br>
+                    около Вас<br>
+                    так спокойно,<br>
+                    легко<br>
+                    и ничуть не страшно<br>
+                    уже.
+                </div>
+                
+                <!-- Столбик 3 -->
+                <div class="stanza">
+                    Я буду<br>
+                    не гостем Вам —<br>
+                    опорой<br>
+                    у Ваших перил.<br>
+                    Не бойтесь<br>
+                    обжечься<br>
+                    о грубые эти ладони.<br>
+                    Я просто хочу,<br>
+                    чтоб февраль<br>
+                    нас двоих<br>
+                    закрепил<br>
+                    На карте земной,<br>
+                    в человечьем<br>
+                    и добром<br>
+                    законе.
+                </div>
+            </div>
+
+            <!-- Спрятанные сердечки (остаются на своих местах) -->
+            <div class="hidden-heart-item heart-pos-5" data-heart-id="poem-1">❤️</div>
+            <div class="hidden-heart-item heart-pos-6" data-heart-id="poem-2">❤️</div>
+        </section>
+
+        <!-- Блок с дополнительным контентом -->
+        <section class="hearts-around">
+            <h2 style="font-family: 'Playfair Display', serif; text-align: center; color: #d81b60; margin-bottom: 30px; font-size: 2.5rem;">Специальный квест</h2>
+            <div style="background: white; border-radius: 20px; padding: 50px; text-align: center; box-shadow: 0 8px 25px rgba(255, 23, 68, 0.1);">
+                <p style="font-family: 'Montserrat', sans-serif; font-size: 1.1rem; color: #d81b60; margin-bottom: 20px;">Найди все спрятанные сердечки на странице</p>
+                <p style="font-family: 'Montserrat', sans-serif; font-size: 1rem; color: #999;">Они разбросаны повсюду и ждут, когда ты их обнаружишь ✨</p>
+            </div>
+            <div class="hidden-heart-item heart-pos-7" data-heart-id="quest-1">❤️</div>
+            <div class="hidden-heart-item heart-pos-8" data-heart-id="quest-2">❤️</div>
+            <div class="hidden-heart-item heart-pos-9" data-heart-id="quest-3">❤️</div>
+            <div class="hidden-heart-item heart-pos-10" data-heart-id="quest-4">❤️</div>
+        </section>
+
+        <!-- Блок признания (скрыт до завершения квеста) -->
+        <section class="confession-block" id="confessionBlock">
+            <div class="celebration" id="celebration">
+                ❤️ 💕 💖
+            </div>
+            <h2 class="confession-title">Ты нашла все сердечки! 🎉</h2>
+            <div class="confession-text">
+                Я хотел бы сказать тебе кое-что важное...
+                <br><br>
+                <span class="confession-highlight">Ты для меня означаешь намного больше, чем просто девушка, с которой я начал общаться.</span>
+                <br><br>
+                Каждый день общения с тобой делает мою жизнь светлее. Твоя улыбка, твой смех, твое присутствие и твои сообщения - все это делает мою жизнь лучше и ярче!
+                <br><br>
+                Я хочу дарить тебе теплоту, поддержку и искреннюю радость в твою жизнь.
+                <br><br>
+                <span class="confession-highlight">Спасибо за то, что ты появилась в моей жизни.</span>
+                <br><br>
+                <span class="confession-highlight">P.S. Ещё тёплых слов ты услишь в данном фильме в одном отрезке: </span>
+                <br><br>
+                <a class="confession-highlight" href="https://www.youtube.com/shorts/hpcpe6pUJjU">Кликни сюда! (Фильм Зелёная книга) (1:09:29)</a>
+            </div>
+            <div class="final-message" id="finalMessage">
+                <p>💝 C 14 февраля, Маша!</p>
+            </div>
+        </section>
+    </div>
+
+    <!-- Модальное окно для галереи -->
+    <div class="modal" id="imageModal">
+        <div class="modal-content">
+            <img id="modalImage" src="" alt="Valentine">
+            <button class="modal-close">&times;</button>
+        </div>
+    </div>
+
+    <script>
+        const TOTAL_HEARTS = 10;
+        let foundHearts = 0;
+        const foundHeartIds = new Set();
+
+        // Создание фоновых сердечек
+        function createBackgroundHearts() {
+            const container = document.getElementById('backgroundHearts');
+            const hearts = ['❤️', '💕', '💖', '💗'];
+
+            for (let i = 0; i < 8; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.top = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 15 + 's';
+                heart.style.animationDuration = (15 + Math.random() * 10) + 's';
+                container.appendChild(heart);
+            }
+        }
+
+        // Обработка кликов на сердечках
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('hidden-heart-item')) {
+                const heartId = e.target.dataset.heartId;
+
+                if (foundHeartIds.has(heartId) || e.target.classList.contains('found')) {
+                    return;
+                }
+
+                foundHeartIds.add(heartId);
+                e.target.classList.add('found');
+                foundHearts++;
+
+                updateProgress();
+                showClickAnimation(e.target);
+
+                if (foundHearts === TOTAL_HEARTS) {
+                    completeQuest();
+                }
+            }
+        });
+
+        // Обработка кликов на валентинках
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('gallery-item')) {
+                const modalId = e.target.dataset.modalId;
+                openModal(modalId);
+            }
+        });
+
+        // Открытие модального окна
+        function openModal(modalId) {
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+
+            // Здесь вы можете установить источник изображения
+            // modalImage.src = `path/to/image-${modalId}.jpg`;
+
+            modal.classList.add('show');
+        }
+
+        // Закрытие модального окна
+        function closeModal() {
+            const modal = document.getElementById('imageModal');
+            modal.classList.remove('show');
+        }
+
+        document.querySelector('.modal-close').addEventListener('click', closeModal);
+        document.getElementById('imageModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Закрытие модального окна на Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Обновление прогресса
+        function updateProgress() {
+            const percentage = (foundHearts / TOTAL_HEARTS) * 100;
+            document.getElementById('progressFill').style.width = percentage + '%';
+            document.getElementById('heartsCount').textContent = `Найдено: ${foundHearts} из ${TOTAL_HEARTS}`;
+        }
+
+        // Анимация при клике
+        function showClickAnimation(element) {
+            const clone = element.cloneNode(true);
+            clone.style.position = 'fixed';
+            clone.style.pointerEvents = 'none';
+            clone.style.fontSize = '2rem';
+
+            const rect = element.getBoundingClientRect();
+            clone.style.left = rect.left + 'px';
+            clone.style.top = rect.top + 'px';
+            clone.style.zIndex = '9999';
+
+            document.body.appendChild(clone);
+
+            clone.animate([
+                { transform: 'scale(1)', opacity: 1 },
+                { transform: 'scale(1.5) translateY(-50px)', opacity: 0 }
+            ], {
+                duration: 600,
+                easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)'
+            }).onfinish = () => clone.remove();
+        }
+
+        // Завершение квеста
+        function completeQuest() {
+            const confessionBlock = document.getElementById('confessionBlock');
+            confessionBlock.classList.add('unlocked');
+
+            setTimeout(() => {
+                document.getElementById('finalMessage').classList.add('show');
+                confessionBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 500);
+        }
+
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            createBackgroundHearts();
+        });
+    </script>
+</body>
+</html>
